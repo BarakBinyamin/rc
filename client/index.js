@@ -4,12 +4,16 @@
 const os               = require('os')
 const { Server }       = require('ssh2')
 const { readFileSync } = require('fs')
-const path = require("path");
-const fs = require("fs");
+const path             = require("path")
+const fs               = require("fs")
 
-// Resolve path correctly when running as an executable
-const basePath = process.pkg ? path.dirname(process.execPath) : __dirname;
-const pty = require('node-pty') //require(path.join(basePath, "node_modules/node-pty/build/Release/pty.node"));
+
+// 1. create a public & private key where installed if not present
+// 2. connect to websockets server to give constant fwd status if no connection quit
+// 3. launch ssh server capable of terminal
+// 4. connect to fwd server to forward ssh connection to the internet -> consider toggling open/closed to the internet, possibly even the whole server
+
+const pty = require('node-pty') 
 
 var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 
@@ -28,7 +32,6 @@ const sshServer = new Server({
       const session = accept();
       session.once('shell', async (acceptTerminal, rejectTerminal, shellinfo) => {
         const stream = acceptTerminal()
-        console.log('pty attempted')
         const ptyProcess = pty.spawn(shell, [], {
             name: 'xterm-color',
             cols: 80,
@@ -38,7 +41,7 @@ const sshServer = new Server({
         });
     
         if (stream){
-            console.log('pty worked')
+            console.log('shell worked')
 
             // Send data from the shell to the client
             ptyProcess.on("data", (data) => {
@@ -69,6 +72,12 @@ const sshServer = new Server({
         }
       })
       session.once("pty", (accept, reject, info) => {
+        // let ptyhandler = accept()
+        // console.log('pty worked')
+        // console.log(info)
+        // ptyhandler.on("window-change", (info) => {
+        //   console.log("resize", info)
+        // });
         // console.log('pty attempted')
         // const ptyProcess = pty.spawn("bash", [], {
         //   name: info.term,
@@ -113,5 +122,5 @@ const sshServer = new Server({
 
 // Start the SSH server
 sshServer.listen(4242, () => {
-  console.log("SSH server listening on port 2222");
+  console.log("SSH server listening on port 4242");
 });

@@ -4,22 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build":"npx nexe --build index.js -o myApp",
+    "build": "npx nexe --build index.js -o myApp",
     "build-macos": "nexe index.js --target macos-x64-20.0.0",
     "build-linux": "pkg index.js --targets node18-linux-x64",
     "build-windows": "pkg index.js --targets node18-win-x64"
   },
   "bin": "index.js",
-  "nexe": {},
-  "pkg": {
-    "assets": [
-      "node_modules/node-pty/build/Debug/pty.node"
-    ]
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-pty": "^1.0.0",
+    "node-pty": "0.10.1",
     "pkg": "^5.8.1",
     "ssh2": "^1.16.0"
   }
