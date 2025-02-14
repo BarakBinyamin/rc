@@ -1,5 +1,5 @@
 # rc
-**R**emote **C**ontrol, a simple computer management tool. Requires access to a ssh reverse proxy service like [fwd](https://rockz-one.github.io/fwd-docs/), or [one you set up yourself]()
+**R**emote **C**ontrol, a simple computer management tool. Requires access to an ssh reverse proxy service like [fwd](https://rockz-one.github.io/fwd-docs/), or one you set up yourself like [haproxy](https://github.com/haproxy/haproxy) or [frp](https://github.com/fatedier/frp)(never tried either though)
 
 ### Features
 - [x] Easy sudoless client install and setup
